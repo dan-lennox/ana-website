@@ -1,0 +1,123 @@
+<?php
+
+include_once('ana_general.features.inc');
+
+/**
+ * Implementation of hook_block_info().
+ */
+function ana_general_block_info() {
+  // Wrap the contact form in a block.
+  $blocks['contact'] = array(
+    'info' => t('Contact Form'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+function ana_general_theme($existing, $type, $theme, $path) {
+  return array(
+    'ana_general_contact_submitted' => array()
+  );
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function ana_general_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'contact':
+      module_load_include('inc', 'contact', 'contact.pages');
+      $block['subject'] = t('');
+      $form = drupal_get_form('contact_site_form');
+      $block['content'] = drupal_render($form);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function ana_general_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'contact_site_form') {
+
+    module_load_include('inc', 'contact', 'contact.pages');
+
+    global $theme_path;
+    drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . $theme_path . '" });', 'inline');
+
+    $form['name']['#prefix'] = '<div id="box">';
+
+    $form['name']['#title'] = t('Name');
+
+    $form['mail']['#title'] = t('E-Mail');
+
+    $form['message']['#default_value'] = t('Your sweet nothings here...');
+    $form['message']['#resizable'] = FALSE;
+
+    unset($form['copy']);
+    $form['actions']['submit']['#value'] = t('Send!');
+    //$form['actions']['submit']['#type'] = 'image_button';
+    //$form['actions']['submit']['#src'] = $theme_path . '/images/send-btn-bg.png';
+    $form['actions']['submit']['#ajax'] = array(
+      'callback' => 'ana_general_contact_personal_form_submit',
+      'wrapper' => 'box',
+      'method' => 'replace',
+      'effect' => 'fade',
+      'progress' => array('type' => 'none')
+    );
+
+    $form['actions']['submit']['#suffix'] = '</div>';
+    unset($form['#validate']);
+    unset($form['#submit']);
+    //$form['#submit'][0] = 'ana_general_contact_personal_form_submit';
+    // Ajaxify the standard contact form
+    //dsm($form);
+  }
+}
+
+function ana_general_contact_personal_form_submit($form, &$form_state) {
+  $form_state['values']['copy'] = 0;
+  module_load_include('inc', 'contact', 'contact.pages');
+  contact_site_form_submit($form, $form_state);
+
+  return theme('ana_general_contact_submitted');
+}
+
+function theme_ana_general_contact_submitted() {
+  $variables = array(
+    'path' => drupal_get_path('theme', 'ana') . '/images/submitted.png',
+    'title' => 'Roger that!',
+    'attributes' => array('class' => 'submitted-img')
+  );
+  $img = theme('image', $variables);
+
+  $path = drupal_get_path('theme', 'ana');
+
+  $commands[] = ajax_command_invoke(NULL, 'Drupal.behaviors.contact_submit');
+  ajax_render($commands);
+  return $img;
+}
+
+/**
+ * Select the 'box' element, change the markup in it, and return it as a
+ * renderable array.
+ *
+ * @return renderable array (the box element)
+ */
+function ajax_example_submit_driven_callback_2($form, $form_state) {
+
+  module_load_include('inc', 'contact', 'contact.pages');
+  // In most cases, it is recomended that you put this logic in form generation
+  // rather than the callback. Submit driven forms are an exception, because
+  // you may not want to return the form at all.
+  $element = $form['box'];
+  $element['#markup'] = "Clicked submit ({$form_state['values']['op']}): " . date('c');
+  return $element;
+}
+
+
+

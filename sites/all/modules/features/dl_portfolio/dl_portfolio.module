@@ -1,0 +1,378 @@
+<?php
+
+include_once('dl_portfolio.features.inc');
+
+function dl_portfolio_menu() {
+  $items['jackbox-social'] = array(
+    'page callback' => 'dl_portfolio_fix_jackbox_social',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['jackbox-graphics'] = array(
+    'page callback' => 'dl_portfolio_jackbox_graphics',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+// Jackbox uses a .php file which nginx/barracuda doesn't like.
+// Need to replicate this functionality here.
+// For this to work the path to the social plugin needs as defined in jackbox-packed.min.js
+// needs to be this callback function - eg /jack-box-social.
+function dl_portfolio_fix_jackbox_social() {
+
+  print theme('dl_portfolio_jackbox_social');
+  drupal_exit();
+}
+
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function dl_portfolio_field_formatter_info() {
+  $formatters = array(
+    'pretty_photo' => array(
+      'label' => t('dl_portfolio'),
+      'field types' => array('file'),
+      'settings' => array(
+        'image_style' => '',
+        'modal_image_style' => '',
+      ),
+    ),
+  );
+
+  return $formatters;
+}
+
+function dl_portfolio_jackbox_graphics() {
+
+  if(isset($_GET["path"])) {
+
+    $path = $_GET["path"];
+    $files = scandir($path);
+    $fileCount = count($files);
+    $broken = false;
+    $list = array();
+
+    $item = NULL;
+    $sub = NULL;
+    $img = NULL;
+    $dir = NULL;
+
+    for($i = 0; $i < $fileCount; $i++) {
+
+      $item = $files[$i];
+      if(is_dir($item)) continue;
+
+      if(strpos($item, ".") !== false) {
+
+        if(preg_match('/.jpg|.png|.gif/', $item)) {
+
+          $list[count($list)] = $path . $item;
+
+        }
+        else if(strpos($item, ".psd") !== false) {
+
+          continue;
+
+        }
+        else {
+
+          $broken = true;
+          break;
+
+        }
+
+      }
+      else {
+
+        $sub = $path . $item;
+
+        if($dir = opendir($sub)) {
+
+          while(($img = readdir($dir)) !== false) {
+
+            if(!is_dir($img)) {
+
+              if(preg_match('/.jpg|.png|.gif/', $img)) {
+
+                $list[count($list)] = $sub . "/" . $img;
+
+              }
+              else if(preg_match('/.psd|retina/', $img)) {
+
+                continue;
+
+              }
+              else {
+
+                $broken = true;
+                break;
+
+              }
+
+            }
+
+          }
+
+          closedir($dir);
+
+        }
+
+      }
+
+      if($broken) break;
+
+    }
+
+    if(!$broken) echo json_encode($list);
+
+  }
+
+  unset($path);
+  unset($files);
+  unset($fileCount);
+  unset($broken);
+  unset($list);
+  unset($files);
+  unset($item);
+  unset($sub);
+  unset($img);
+  unset($dir);
+
+  drupal_exit();
+}
+
+function dl_portfolio_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $image_styles = image_style_options(FALSE);
+  $element['image_style'] = array(
+    '#title' => t('Image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['image_style'],
+    '#empty_option' => t('None (original image)'),
+    '#options' => $image_styles,
+  );
+
+  $element['modal_image_style'] = array(
+    '#title' => t('Modal popup image Style'),
+    '#type' => 'select',
+    '#default_value' => $settings['modal_image_style'],
+    '#empty_option' => t('Nothing'),
+    '#options' => $image_styles,
+  );
+  return $element;
+}
+
+function dl_portfolio_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+  $image_styles = image_style_options(FALSE);
+  // Unset possible 'No defined styles' option.
+  unset($image_styles['']);
+  // Styles could be lost because of enabled/disabled modules that defines
+  // their styles in code.
+  if (isset($image_styles[$settings['image_style']])) {
+    $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
+  }
+  else {
+    $summary[] = t('Original image');
+  }
+
+  if ($field['type'] == 'image') {
+    if (isset($image_styles[$settings['modal_image_style']])) {
+      $summary[] = t('Modal window image style: @style', array('@style' => $image_styles[$settings['modal_image_style']]));
+    }
+    else {
+      $summary[] = t('Original image');
+    }
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function dl_portfolio_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  $project_image_path = $entity->field_preview_image['und'][0]['uri'];
+
+  foreach ($items as $delta => $item) {
+    switch($item['type']) {
+      case 'image':
+
+        $element[$delta] = array(
+          '#theme' => 'image_dl_portfolio_formatter',
+          '#item' => $item,
+          '#image_style' => $display['settings']['image_style'],
+          '#preview_image_path' => $project_image_path,
+          '#path' => file_create_url(image_style_path($display['settings']['modal_image_style'], $item['uri'])),
+          '#delta' => $delta,
+          '#entity_id' => $entity->nid,
+          '#title' => $entity->title
+        );
+        break;
+
+      case 'video':
+
+        //$item_obj = new stdClass();
+        //foreach ($item as $key => $value) {
+        //  $item_obj->$key = $value;
+        //}
+        //$preview_image =  media_vimeo_file_formatter_image_view($item_obj, $display, $langcode);
+        $project_image_path = $entity->field_preview_image['und'][0]['uri'];
+
+        $element[$delta] = array(
+          '#theme' => 'video_dl_portfolio_formatter',
+          '#image_style' => $display['settings']['image_style'],
+          '#preview_image_path' => $project_image_path,
+          '#video_url' => $item['uri'],
+          '#title' => $entity->title,
+          '#delta' => $delta,
+          '#entity_id' => $entity->nid
+        );
+        break;
+    }
+  }
+
+  return $element;
+}
+
+function dl_portfolio_theme() {
+  return array(
+    'image_dl_portfolio_formatter' => array(
+      'variables' => array('preview_image_path' => NULL, 'item' => NULL, 'path' => NULL, 'image_style' => NULL, 'delta' => NULL, 'entity_id' => NULL, 'title' => NULL),
+    ),
+    'video_dl_portfolio_formatter' => array(
+      'variables' => array('preview_image_path' => NULL, 'video_url' => NULL, 'image_style' => NULL, 'title' => NULL, 'delta' => NULL, 'entity_id' => NULL),
+    ),
+    'dl_portfolio_jackbox_social' => array(
+      'template' => 'dl-portfolio-jackbox-social',
+    ),
+  );
+}
+
+function theme_video_dl_portfolio_formatter($variables) {
+
+  // drupal_add_js('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-media.js');
+  // drupal_add_css('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-thumbs.css');
+  // drupal_add_js('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-thumbs.js');
+  // drupal_add_css('sites/all/libraries/fancybox/source/jquery.fancybox.css');
+  // drupal_add_js('sites/all/libraries/fancybox/source/jquery.fancybox.js');
+
+  //drupal_add_js('sites/all/libraries/fresco/js/fresco/fresco.js');
+  //drupal_add_css('sites/all/libraries/fresco/css/fresco/fresco.css');
+
+  drupal_add_js('sites/all/libraries/jackbox/deploy/jackbox/js/jackbox-packed.min.js');
+  drupal_add_css('sites/all/libraries/jackbox/deploy/jackbox/css/jackbox.min.css');
+
+  drupal_add_js(drupal_get_path('module', 'dl_portfolio') . '/dl_portfolio.js');
+
+
+
+  $file = file_uri_to_object($variables['video_url']);
+  $video_path = 'http://vimeo.com/' . $file->filename;
+
+  if ($variables['delta'] == 0) {
+    $image = array(
+      'path' => $variables['preview_image_path'],
+      'alt' => 'test stuff',
+      'title' => 'its a title!',
+      //'style_name' => $variables['image_style']
+    );
+    //$output = theme('image_style', $image);
+    $output = theme('image', $image);
+  }
+  else {
+    $output = '';
+  }
+
+  if ($video_path) {
+    $options['html'] = TRUE;
+   // $options['attributes']['class'] = 'fancybox';
+   //$options['attributes']['class'] = 'fresco';
+    //  $options['attributes']['title'] = $variables['title'];
+
+    //$options['attributes']['rel'] = "dl_portfolio[pp_gal{$variables['entity_id']}]";
+    //$options['attributes']['rel'] = "shadowbox";
+//    $extra_settings = '&rel=0';
+    //$options['attributes']['rel'] = 'gallery-' .  $variables['entity_id'];
+    $options['attributes']['class'] = 'jackbox';
+    $options['attributes']['data-title'] = $variables['title'];
+    $options['attributes']['data-group'] = 'gallery-' .  $variables['entity_id'];
+
+    $output = l($output, $video_path, $options);
+  }
+
+  return $output;
+}
+
+function theme_image_dl_portfolio_formatter($variables) {
+
+  // drupal_add_js('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-media.js');
+  // drupal_add_css('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-thumbs.css');
+  // drupal_add_js('sites/all/libraries/fancybox/source/helpers/jquery.fancybox-thumbs.js');
+  // drupal_add_css('sites/all/libraries/fancybox/source/jquery.fancybox.css');
+  // drupal_add_js('sites/all/libraries/fancybox/source/jquery.fancybox.js');
+  //
+  //drupal_add_js('sites/all/libraries/fresco/js/fresco/fresco.js');
+  //drupal_add_css('sites/all/libraries/fresco/css/fresco/fresco.css');
+
+  drupal_add_js('sites/all/libraries/jackbox/deploy/jackbox/js/jackbox-packed.min.js');
+  drupal_add_css('sites/all/libraries/jackbox/deploy/jackbox/css/jackbox.min.css');
+
+  drupal_add_js(drupal_get_path('module', 'dl_portfolio') . '/dl_portfolio.js');
+
+
+  $item = $variables['item'];
+  $image = array(
+    'path' => $variables['preview_image_path'],
+  );
+
+  if ($variables['image_style'] && $variables['delta'] == 0) {
+    $image['style_name'] = $variables['image_style'];
+    $output = theme('image', $image);
+  }
+  else {
+    $output = '';
+  }
+
+
+  if ($path = $variables['path']) {
+    $options['html'] = TRUE;
+    //$options['attributes']['class'] = 'fancybox';
+    //$options['attributes']['class'] = 'fresco';
+    //$options['attributes']['rel'] = 'gallery-' .  $variables['entity_id'];
+    $options['attributes']['class'] = 'jackbox';
+    $options['attributes']['data-title'] = $variables['title'];
+    $options['attributes']['data-group'] = 'gallery-' .  $variables['entity_id'];
+    $options['attributes']['data-thumbnail'] = image_style_url('square_thumbnail', $item['uri']);
+
+    //$output = '<a class="jackbox" data-group="info" data-title="JackBox Just Works" href="' . $path . '">test</a>';
+    $output = l($output, $path, $options);
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function dl_portfolio_views_pre_render(&$view) {
+  global $user;
+  if ($user->uid != 0) {
+    switch ($view->name) {
+      case 'dl_projects':
+        $view->attachment_before = l('Add new project', 'node/add/dl-gallery', array('query' => array('destination' => 'home')));
+        break;
+    }
+  }
+}
+
