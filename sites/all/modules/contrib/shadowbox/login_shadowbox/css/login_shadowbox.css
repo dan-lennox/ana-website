@@ -1,0 +1,11 @@
+#sb-body .html {
+  background: #ACF;
+  padding: 50px;
+  border: 2px dotted #69C;
+}
+
+#shadowbox_login {
+  width: 150px;
+  margin: 0 auto;
+  overflow: hidden;
+}
