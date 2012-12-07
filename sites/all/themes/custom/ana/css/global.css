@@ -11,7 +11,7 @@ body {
 }
 
 #section-content {
-  padding-top: 119px;
+  padding-top: 80px;
 }
 
 /******************************************************************
@@ -377,12 +377,12 @@ h2.project-title span .cufon {
 .block-ana-general-contact {
   width: 421px;
   /*background: url(../images/get-in-touch.png) no-repeat top center;*/
-  background: url(../images/get-in-touch-sent.png) no-repeat -70px 0;
+  background: url(../images/get-in-touch-sent.png) no-repeat -100px 0;
   padding: 173px 0 0 0;
 }
 
 .block-ana-general-contact .content {
-  background: url(../images/twisty-arrow.png) no-repeat 20% 100%;
+  background: url(../images/twisty-arrow.png) no-repeat 15% 100%;
   padding-bottom: 0px;
 }
 
@@ -426,7 +426,7 @@ h2.project-title span .cufon {
 
 .block-ana-general-contact label {
   width: 60px;
-  margin-left: 40px;
+  margin-left: 10px;
   margin-top: 7px;
 }
 
@@ -493,7 +493,7 @@ h2.project-title span .cufon {
   float: left;
   width: 289px;
   height: 153px;
-  margin-left: 40px;
+  margin-left: 10px;
   padding: 12px 20px 12px 12px;
   color: #868080;
   font-size: 14px;
@@ -502,7 +502,7 @@ h2.project-title span .cufon {
 
 .block-ana-general-contact .form-actions input {
   position: relative;
-  right: 78px;
+  right: 108px;
   float: right;
   margin: 9px 0 0 0;
   background: url(../images/send-btn-sprites.png) no-repeat top left;

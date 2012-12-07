@@ -3,6 +3,10 @@
  *  apply to the normal and widescreen layouts. You may override these styles in the normal
  *  and widescreen CSS files as appropriate. */
 
+#section-content {
+  padding-top: 119px;
+}
+
 /******************************************************************
  * Navigation.
  ******************************************************************/
@@ -147,6 +151,7 @@
 
 .block-ana-general-contact {
   background-position: top center;
+  width: 421px;
 }
 
 
