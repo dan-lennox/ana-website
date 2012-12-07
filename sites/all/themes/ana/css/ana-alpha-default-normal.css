@@ -1,0 +1,24 @@
+/* This file will hold styles that are loaded using the same media query as the normal grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the widescreen layout unless they are overridden by the widescreen styles. */
+
+/******************************************************************
+ * Gallery.
+ ******************************************************************/
+
+.view-dl-projects .view-content {
+  width: 915px;
+}
+
+.block-boxes-ana-about,
+.block-ana-general-contact {
+  float: left;
+}
+
+.block-ana-general-contact {
+  margin-top: 113px;
+}
+
+.block-boxes-ana-about {
+  border: none;
+}

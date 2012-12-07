@@ -1,0 +1,187 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal
+ *  and widescreen CSS files as appropriate. */
+
+/******************************************************************
+ * Navigation.
+ ******************************************************************/
+
+#zone-branding-wrapper {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  height: 54px;
+  border-bottom: 3px solid #ff4083;
+  padding-top: 0;
+  background: #2b2323;
+}
+
+.logged-in #zone-branding-wrapper {
+  top: 65px;
+}
+
+#nav-mobile {
+  display: none;
+}
+
+.branding-data .name-and-slogan {
+  display: block;
+}
+
+.site-slogan {
+  margin-left: 11px;
+}
+
+#nav {
+  width: 257px;
+  float: right;
+}
+
+.name-and-slogan {
+  float: left;
+  width: auto;
+  margin-left: 16px;
+}
+
+#nav a {
+  margin-top: 0;
+}
+
+.logo-img {
+  width: 157px;
+  float: left;
+  margin-left: 67px;
+  left: auto;
+  position: relative;
+}
+
+#nav .logo-img {
+  display: block;
+}
+
+.site-name {
+  margin-left: -45px;
+}
+
+/******************************************************************
+ * Gallery.
+ ******************************************************************/
+
+.view-dl-projects .view-content {
+  width: 610px;
+}
+
+.view-dl-projects li.views-row {
+  margin-left: 6px;
+  margin-right: 7px;
+}
+
+.view-dl-projects .views-row h2.project-title {
+  display: none;
+}
+
+.view-dl-projects .views-row h2.hover {
+  display: block;
+}
+
+.view-dl-projects li.views-row a img {
+  margin-top: -195px;
+  position: relative;
+}
+
+.view-dl-projects li.views-row a:hover img {
+  margin-top: 0;
+}
+
+/******************************************************************
+ * Contact Area
+ ******************************************************************/
+
+.block-boxes-ana-about {
+  padding: 206px 89px 46px 80px;
+  background-image: url(../images/about-header.png);
+  width: 350px;
+}
+
+.block-boxes-ana-about p {
+  font-size: 10px;
+  width: auto;
+  margin-left: 0;
+}
+
+.block-boxes-ana-about img {
+  width: auto;
+  height: auto;
+}
+
+#section-footer {
+  padding-bottom: 0;
+}
+
+.block-ana-general-contact .form-type-textarea .form-textarea-wrapper #edit-message,
+.block-ana-general-contact label {
+  margin-left: 78px;
+}
+
+.block-ana-general-contact .form-actions input {
+  right: -22px;
+}
+
+.block-ana-general-contact .content {
+  background: url(../images/twisty-arrow.png) no-repeat 60% 100%;
+}
+
+.block-boxes-ana-about p {
+  font-size: 100%;
+}
+
+.block-menu-social {
+  padding-top: 46px;
+  padding-left: 200px;
+}
+
+/**
+ * Contact form.
+ */
+
+.block-ana-general-contact {
+  background-position: top center;
+}
+
+
+.block-ana-general-contact .form-item-name input {
+  background-image: url(../images/name-field-bg.png);
+  width: 236px;
+}
+
+.block-ana-general-contact .form-item-subject input {
+  background-image: url(../images/subject-field-bg.png);
+  width: 250px;
+}
+
+.block-ana-general-contact .form-item-mail input {
+  background-image: url(../images/email-field-bg.png);
+  width: 245px;
+}
+
+.block-ana-general-contact .form-type-textarea .form-textarea-wrapper #edit-message {
+  background: transparent url(../images/message-field-bg.png) no-repeat top center;
+  width: 344px;
+}
+
+.submitted-img {
+  margin-left: 160px;
+  margin-top: 0px;
+}
+
+/**
+ * Footer
+ */
+#zone-footer-wrapper {
+  background: url(../images/brown-triangle-down.png) repeat-x bottom left;
+}
+
+#boxes-box-ana_footer .boxes-box-content {
+  padding-top: 21px;
+}
