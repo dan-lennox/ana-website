@@ -278,7 +278,7 @@ function theme_video_dl_portfolio_formatter($variables) {
 
 
   $file = file_uri_to_object($variables['video_url']);
-  $video_path = 'http://vimeo.com/' . $file->filename;
+  $video_path = file_create_url($file->uri);
 
   if ($variables['delta'] == 0) {
     $image = array(
