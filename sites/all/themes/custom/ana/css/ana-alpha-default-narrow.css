@@ -108,6 +108,10 @@
   width: 350px;
 }
 
+.block-boxes-ana-about .boxes-box-content {
+  height: 252px;
+}
+
 .block-boxes-ana-about p {
   font-size: 10px;
   width: auto;

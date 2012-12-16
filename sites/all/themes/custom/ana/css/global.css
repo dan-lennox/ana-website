@@ -355,6 +355,10 @@ h2.project-title span .cufon {
   padding: 130px 5px 46px 5px;
 }
 
+.block-boxes-ana-about .boxes-box-content {
+  height: 165px;
+}
+
 .block-boxes-ana-about p {
   font-size: 10px;
   width: 200px;
