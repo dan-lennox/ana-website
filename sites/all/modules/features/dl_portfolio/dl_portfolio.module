@@ -213,11 +213,19 @@ function dl_portfolio_field_formatter_view($entity_type, $entity, $field, $insta
           '#item' => $item,
           '#image_style' => $display['settings']['image_style'],
           '#preview_image_path' => $project_image_path,
-          '#path' => file_create_url(image_style_path($display['settings']['modal_image_style'], $item['uri'])),
           '#delta' => $delta,
           '#entity_id' => $entity->nid,
           '#title' => $entity->title
         );
+
+
+        // if (isset($display['settings']['modal_image_style'])) {
+        //   $element[$delta]['#path'] = file_create_url(image_style_path($display['settings']['modal_image_style'], $item['uri']));
+        // }
+        // else {
+          $element[$delta]['#path'] = file_create_url($item['uri']);
+        //}
+
         break;
 
       case 'video':
@@ -343,7 +351,6 @@ function theme_image_dl_portfolio_formatter($variables) {
   else {
     $output = '';
   }
-
 
   if ($path = $variables['path']) {
     $options['html'] = TRUE;
