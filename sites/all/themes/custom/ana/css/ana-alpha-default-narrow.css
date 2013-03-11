@@ -4,7 +4,7 @@
  *  and widescreen CSS files as appropriate. */
 
 #section-content {
-  padding-top: 119px;
+  padding-top: 127px;
 }
 
 /******************************************************************
@@ -15,10 +15,14 @@
   position: fixed;
   top: 0;
   z-index: 10;
-  height: 54px;
-  border-bottom: 3px solid #ff4083;
+  height: 62px;
   padding-top: 0;
-  background: #2b2323;
+  background: #101111;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+  filter: alpha(opacity=85);
+  -moz-opacity: 0.85;
+  -khtml-opacity: 0.85;
+  opacity: 0.85;
 }
 
 .logged-in #zone-branding-wrapper {
@@ -34,18 +38,19 @@
 }
 
 .site-slogan {
-  margin-left: 11px;
+  margin-left: 8px;
 }
 
 #nav {
   width: 257px;
   float: right;
+  margin-right: 45px;
 }
 
 .name-and-slogan {
   float: left;
   width: auto;
-  margin-left: 16px;
+  margin-left: 27px;
 }
 
 #nav a {
@@ -65,7 +70,7 @@
 }
 
 .site-name {
-  margin-left: -45px;
+
 }
 
 /******************************************************************
@@ -77,16 +82,27 @@
 }
 
 .view-dl-projects li.views-row {
-  margin-left: 6px;
-  margin-right: 7px;
+  margin-left: 15px;
+  margin-right: 17px;
+  float: left;
+  position: relative;
 }
 
 .view-dl-projects .views-row h2.project-title {
   display: none;
 }
 
-.view-dl-projects .views-row h2.hover {
+.view-dl-projects .views-row a:hover h2.project-title {
   display: block;
+}
+
+h2.project-title {
+  margin-left: 0;
+  background: none;
+  height: auto;
+  width: 272px;
+  top: 95px;
+  padding-top: 0;
 }
 
 .view-dl-projects li.views-row a img {
@@ -102,82 +118,22 @@
  * Contact Area
  ******************************************************************/
 
-.block-boxes-ana-about {
-  padding: 206px 89px 46px 80px;
-  background-image: url(../images/about-header.png);
-  width: 350px;
+.block-a-little-about-me {
+  margin-top: 40px;
 }
 
-.block-boxes-ana-about .boxes-box-content {
-  height: 252px;
-}
-
-.block-boxes-ana-about p {
-  font-size: 10px;
-  width: auto;
-  margin-left: 0;
-}
-
-.block-boxes-ana-about img {
-  width: auto;
-  height: auto;
+.block-ana-general-contact {
+  margin-top: 55px;
 }
 
 #section-footer {
   padding-bottom: 0;
 }
 
-.block-ana-general-contact .form-type-textarea .form-textarea-wrapper #edit-message,
-.block-ana-general-contact label {
-  margin-left: 78px;
-}
-
-.block-ana-general-contact .form-actions input {
-  right: -22px;
-}
-
-.block-ana-general-contact .content {
-  background: url(../images/twisty-arrow.png) no-repeat 60% 100%;
-}
-
-.block-boxes-ana-about p {
-  font-size: 100%;
-}
-
-.block-menu-social {
-  padding-top: 46px;
-  padding-left: 200px;
-}
 
 /**
  * Contact form.
  */
-
-.block-ana-general-contact {
-  background-position: top center;
-  width: 421px;
-}
-
-
-.block-ana-general-contact .form-item-name input {
-  background-image: url(../images/name-field-bg.png);
-  width: 236px;
-}
-
-.block-ana-general-contact .form-item-subject input {
-  background-image: url(../images/subject-field-bg.png);
-  width: 250px;
-}
-
-.block-ana-general-contact .form-item-mail input {
-  background-image: url(../images/email-field-bg.png);
-  width: 245px;
-}
-
-.block-ana-general-contact .form-type-textarea .form-textarea-wrapper #edit-message {
-  background: transparent url(../images/message-field-bg.png) no-repeat top center;
-  width: 344px;
-}
 
 .submitted-img {
   margin-left: 160px;
@@ -187,10 +143,14 @@
 /**
  * Footer
  */
-#zone-footer-wrapper {
-  background: url(../images/brown-triangle-down.png) repeat-x bottom left;
+#boxes-box-ana_footer {
+  width: 92%;
+  margin-left: 3%;
+  margin-right: 5%;
+  margin-bottom: 0;
 }
 
-#boxes-box-ana_footer .boxes-box-content {
-  padding-top: 21px;
+#boxes-box-ana_footer {
+  margin-top: 65px;
 }
+

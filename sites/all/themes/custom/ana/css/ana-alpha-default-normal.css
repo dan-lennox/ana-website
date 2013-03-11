@@ -15,10 +15,23 @@
   float: left;
 }
 
-.block-ana-general-contact {
-  margin-top: 113px;
+.block-a-little-about-me {
+  margin-left: 28px;
+  margin-right: 180px;
+  float: left;
 }
 
-.block-boxes-ana-about {
-  border: none;
+#zone-content-wrapper {
+  padding-bottom: 100px;
+}
+
+
+#boxes-box-ana_footer {
+  margin-top: 145px;
+}
+
+#boxes-box-ana_footer {
+  width: 880px;
+  margin-left: 28px;
+  margin-right: 0;
 }

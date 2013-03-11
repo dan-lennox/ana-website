@@ -1,11 +1,8 @@
 // below is breaking default JS.
 
 (function ($) {
-	Drupal.behaviors.dl_portfolio = {
-		attach: function(context) {
-			//$('a[rel^=\'prettyPhoto\']').prettyPhoto();
-
-			//$(".fancybox").fancybox();
+  Drupal.behaviors.dl_portfolio = {
+    attach: function(context) {
 
       $(".jackbox[data-group]").jackBox("init", {
 
@@ -24,29 +21,10 @@
         useThumbs: true,                // choose to use thumbnails, true/false
         thumbsStartHidden: false,       // choose to initially hide the thumbnail strip, true/false
         thumbnailWidth: 100,             // the default video width, can also be set per video in the data-attributes
-        thumbnailHeight: 100,            // the default video height, can also be set per video in the data-attributes
+        thumbnailHeight: 100            // the default video height, can also be set per video in the data-attributes
         //useThumbTooltips: true                 // choose to use small thumbnail tooltips, true/false
 
       });
-      // thumbnailWidth: 75,
-
-			// $(".fancybox").fancybox({
-   //      openEffect  : 'none',
-   //      closeEffect : 'none',
-			//   helpers : {
-   //        media: { },
-   //        thumbs: {
-   //          width  : 100,
-   //          height : 100,
-   //          position : 'bottom',
-   //        }
-   //      }
-   //    });
-
-			// Shadowbox.init({
-			//         handleOversize: "drag",
-			//         modal: true
-			//       });
-		}
-	}
+    }
+  };
 })(jQuery);

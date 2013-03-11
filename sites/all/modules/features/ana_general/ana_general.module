@@ -17,7 +17,10 @@ function ana_general_block_info() {
 
 function ana_general_theme($existing, $type, $theme, $path) {
   return array(
-    'ana_general_contact_submitted' => array()
+    'ana_general_contact_submitted' => array(),
+    'ana_general_contact_errors' => array(
+      'variables' => array('errors' => NULL)
+    )
   );
 }
 
@@ -49,8 +52,6 @@ function ana_general_form_alter(&$form, &$form_state, $form_id) {
     global $theme_path;
     drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . $theme_path . '" });', 'inline');
 
-    $form['name']['#prefix'] = '<div id="box">';
-
     $form['name']['#title'] = t('Name');
 
     $form['mail']['#title'] = t('E-Mail');
@@ -64,42 +65,74 @@ function ana_general_form_alter(&$form, &$form_state, $form_id) {
     //$form['actions']['submit']['#src'] = $theme_path . '/images/send-btn-bg.png';
     $form['actions']['submit']['#ajax'] = array(
       'callback' => 'ana_general_contact_personal_form_submit',
-      'wrapper' => 'box',
-      'method' => 'replace',
+      //'wrapper' => 'box',
+      'method' => 'after',
       'effect' => 'fade',
       'progress' => array('type' => 'none')
     );
 
-    $form['actions']['submit']['#suffix'] = '</div>';
     unset($form['#validate']);
     unset($form['#submit']);
-    //$form['#submit'][0] = 'ana_general_contact_personal_form_submit';
-    // Ajaxify the standard contact form
-    //dsm($form);
   }
 }
 
 function ana_general_contact_personal_form_submit($form, &$form_state) {
   $form_state['values']['copy'] = 0;
   module_load_include('inc', 'contact', 'contact.pages');
-  contact_site_form_submit($form, $form_state);
 
-  return theme('ana_general_contact_submitted');
+  $errors = form_get_errors();
+
+  if (isset($form_state['values']['mail'])) {
+    if (!valid_email_address($form_state['values']['mail'])) {
+      $errors['mail_invalid'] = t('Please enter a valid e-mail address.');
+    }
+  }
+
+  if (isset($errors)) {
+    return theme('ana_general_contact_errors', array('errors' => $errors));
+  }
+  else {
+    contact_site_form_submit($form, $form_state);
+    return theme('ana_general_contact_submitted');
+  }
+}
+
+function theme_ana_general_contact_errors($vars) {
+  $messages = array();
+  $messages = $vars['errors'];
+
+  foreach ($messages as $message) {
+    $output .= '<div class="message-error form-message">';
+    $output .= $message;
+    $output .= '</div>';
+  }
+
+  $commands[] = ajax_command_invoke('.message-error', 'remove');
+  $commands[] = ajax_command_after('.contact-form .form-actions input', $output);
+  $commands[] = ajax_command_invoke('.message-error', 'fadeIn', array('fast'));
+  $commands[] = ajax_command_invoke('.message-error', 'delay', array(3000));
+  $commands[] = ajax_command_invoke('.message-error', 'fadeOut', array(2000));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 function theme_ana_general_contact_submitted() {
-  $variables = array(
-    'path' => drupal_get_path('theme', 'ana') . '/images/submitted.png',
-    'title' => 'Roger that!',
-    'attributes' => array('class' => 'submitted-img')
-  );
-  $img = theme('image', $variables);
 
-  $path = drupal_get_path('theme', 'ana');
+  $output .= '<div id="message-sent" class="form-message">';
+  $output .= '<div class="message">' . t('Message sent!') . '</div>';
+  $output .= '<div class="sent">' . t('Thanks for the love') . '</div>';
+  $output .= '</div>';
 
-  $commands[] = ajax_command_invoke(NULL, 'Drupal.behaviors.contact_submit');
-  ajax_render($commands);
-  return $img;
+  $commands[] = ajax_command_invoke('.message-error', 'remove');
+  $commands[] = ajax_command_invoke('#message-sent', 'remove');
+  $commands[] = ajax_command_after('.contact-form .form-actions input', $output);
+  $commands[] = ajax_command_invoke('#message-sent', 'fadeIn', array('fast'));
+  $commands[] = ajax_command_invoke('.contact-form .form-item input', 'removeAttr', array('value'));
+  $commands[] = ajax_command_invoke('.contact-form textarea', 'removeAttr', array('value'));
+  $commands[] = ajax_command_invoke('#message-sent', 'delay', array(3000));
+  $commands[] = ajax_command_invoke('#message-sent', 'fadeOut', array(2000));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**

@@ -29,7 +29,7 @@ Drupal.behaviors.ana_general = {
   attach: function(context) {
     //Cufon.replace('.form-type-textfield label');
     //
-    Cufon.set('fontFamily', 'Stag Sans Book').replace('.site-name, h2.project-title, .block-ana-general-contact .form-type-textfield label');
+    Cufon.set('fontFamily', 'Stag Sans Book').replace('.site-name');
     Cufon.set('fontFamily', 'Stag light').replace('.site-slogan');
     // Cufon.replace('#site-name, #site-slogan', {
     //   fontFamily: 'stag'
@@ -69,12 +69,12 @@ Drupal.behaviors.ana_general = {
 };
 
 Drupal.behaviors.contact_submit = {
-  attach: function(context, settings, args) {
-    if (jQuery(".submitted-img").length > 0) {
-      var theme_path = Drupal.settings.pathToTheme;
-      // Remove twisty dotted line on contact form on submission.
-      //jQuery(".block-contact").css("background-image", "url(" + theme_path + "/images/get-in-touch-sent.png)");
-      jQuery(".block-contact .content").css("background-image", "none");
-    }
-  }
+  // attach: function(context, settings, args) {
+  //   //if (jQuery(".submitted-img").length > 0) {
+  //     //jQuery("input").each().empty();
+  //     //alert('yo!');
+  //     //console.log('called');
+  //     //jQuery("")
+  //   //}
+  // }
 };

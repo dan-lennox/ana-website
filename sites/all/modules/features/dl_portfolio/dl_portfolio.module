@@ -357,12 +357,22 @@ function theme_image_dl_portfolio_formatter($variables) {
     //$options['attributes']['class'] = 'fancybox';
     //$options['attributes']['class'] = 'fresco';
     //$options['attributes']['rel'] = 'gallery-' .  $variables['entity_id'];
+
+    if (isset($variables['item']['field_file_title']['und'])) {
+      $title = $variables['item']['field_file_title']['und'][0]['safe_value'];
+    }
+    else {
+      $title = $variables['title'];
+    }
+
     $options['attributes']['class'] = 'jackbox';
-    $options['attributes']['data-title'] = $variables['title'];
+    $options['attributes']['data-title'] = $title;
     $options['attributes']['data-group'] = 'gallery-' .  $variables['entity_id'];
     $options['attributes']['data-thumbnail'] = image_style_url('square_thumbnail', $item['uri']);
 
     //$output = '<a class="jackbox" data-group="info" data-title="JackBox Just Works" href="' . $path . '">test</a>';
+    $output .= '<h2 class="project-title">' . $variables['title'] . '</h2>';
+
     $output = l($output, $path, $options);
   }
 
