@@ -1,8 +1,8 @@
 <?php
 
-  $useTwitter = true;
-  $useGoogle = true;
-  $usePinterest = true;
+  $useTwitter = false;
+  $useGoogle = false;
+  $usePinterest = false;
   $useFacebook = false;
   //$facebookAppID = "131876150301875";
 
