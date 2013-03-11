@@ -120,10 +120,12 @@ h2.project-title {
 
 .block-a-little-about-me {
   margin-top: 40px;
+  padding-top: 20px;
 }
 
 .block-ana-general-contact {
-  margin-top: 55px;
+  margin-top: 40px;
+  padding-top: 20px;
 }
 
 #section-footer {
