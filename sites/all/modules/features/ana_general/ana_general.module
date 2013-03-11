@@ -101,14 +101,16 @@ function theme_ana_general_contact_errors($vars) {
   $messages = array();
   $messages = $vars['errors'];
 
+  $output .= '<div id="messages" class="form-message">';
   foreach ($messages as $message) {
     $output .= '<div class="message-error form-message">';
     $output .= $message;
     $output .= '</div>';
   }
+  $output .= '</div>';
 
-  $commands[] = ajax_command_invoke('.message-error', 'remove');
-  $commands[] = ajax_command_after('.contact-form .form-actions input', $output);
+  $commands[] = ajax_command_invoke('.form-message', 'remove');
+  $commands[] = ajax_command_before('.contact-form .form-actions input', $output);
   $commands[] = ajax_command_invoke('.message-error', 'fadeIn', array('fast'));
   $commands[] = ajax_command_invoke('.message-error', 'delay', array(3000));
   $commands[] = ajax_command_invoke('.message-error', 'fadeOut', array(2000));
@@ -123,9 +125,9 @@ function theme_ana_general_contact_submitted() {
   $output .= '<div class="sent">' . t('Thanks for the love') . '</div>';
   $output .= '</div>';
 
-  $commands[] = ajax_command_invoke('.message-error', 'remove');
+  $commands[] = ajax_command_invoke('.form-message', 'remove');
   $commands[] = ajax_command_invoke('#message-sent', 'remove');
-  $commands[] = ajax_command_after('.contact-form .form-actions input', $output);
+  $commands[] = ajax_command_before('.contact-form .form-actions input', $output);
   $commands[] = ajax_command_invoke('#message-sent', 'fadeIn', array('fast'));
   $commands[] = ajax_command_invoke('.contact-form .form-item input', 'removeAttr', array('value'));
   $commands[] = ajax_command_invoke('.contact-form textarea', 'removeAttr', array('value'));

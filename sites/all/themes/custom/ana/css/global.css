@@ -494,15 +494,21 @@ form label span.form-required {
   color: #a4a5a5;
 }
 
-.form-message {
+.form-message,
+#messages {
   display: none; /*Overriden by ajax when button clicked.*/
-  float: right;
-  clear: right;
+  float: left;
+  clear: both;
   font-family: Arial, sans-serif;
   text-align: right;
   line-height: 12px;
   margin-top: 14px;
   color: red;
+}
+
+#messages .form-message{
+  margin-top: 0;
+  margin-bottom: 14px;
 }
 
 #message-sent {
@@ -511,6 +517,8 @@ form label span.form-required {
   color: #ff4083;
   padding-right: 31px;
   background: url(../images/heart.png) no-repeat 109px 2px;
+  margin-left: 70px;
+  margin-top: 20px;
 }
 
 #message-sent .message {
