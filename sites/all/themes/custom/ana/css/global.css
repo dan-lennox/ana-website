@@ -392,6 +392,10 @@ h2.block-title {
   margin-top: 2px;
 }
 
+.block-a-little-about-me .content .content {
+  border: none;
+}
+
 .block-a-little-about-me {
   width: 350px;
   padding-top: 18px;
