@@ -9,7 +9,7 @@
         deepLinking: true,              // choose to use the deep-linking feature ("true" will enhance social sharing!) true/false
         showInfoByDefault: false,       // show item info automatically when content loads, true/false
         preloadGraphics: true,          // preload the jackbox graphics for a faster jackbox
-        fullscreenScalesContent: true,  // choose to always scale content up in fullscreen mode, true/false
+        fullscreenScalesContent: false,  // choose to always scale content up in fullscreen mode, true/false
         //defaultShareImage: "1.jpg"          // if the social widget can't find an image to share from your lightbox content,
                                         // it will use this image's url instead.  Only applicable to Pinterest.
 

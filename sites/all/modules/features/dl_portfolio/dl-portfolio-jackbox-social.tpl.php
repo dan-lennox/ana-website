@@ -3,8 +3,8 @@
   $useTwitter = true;
   $useGoogle = true;
   $usePinterest = true;
-  $useFacebook = true;
-  $facebookAppID = "131876150301875";
+  $useFacebook = false;
+  //$facebookAppID = "131876150301875";
 
   // visit
   // https://developers.facebook.com/apps/?action=create
