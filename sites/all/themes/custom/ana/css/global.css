@@ -218,13 +218,13 @@ a:hover {
 
 h2.project-title {
   position: absolute;
-  top: 80px;
+  top: 95px;
   width: 190px;
   margin-left: 40px;
   padding-top: 20px;
   z-index: 5;
   margin-top: 0px;
-  font-size: 24px;
+  font-size: 20px;
   font-family: Arial, sans-serif;
   font-style: italic;
   font-weight: normal;
