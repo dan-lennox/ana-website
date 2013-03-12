@@ -118,9 +118,18 @@ h2.project-title {
  * Contact Area
  ******************************************************************/
 
+.block-a-little-about-me,
+.block-ana-general-contact {
+  width: 350px;
+}
+
 .block-a-little-about-me {
   margin-top: 50px;
   padding-top: 0px;
+}
+
+.block-a-little-about-me img {
+  width: auto;
 }
 
 .block-ana-general-contact {

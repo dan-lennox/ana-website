@@ -401,11 +401,12 @@ h2.block-title {
 }
 
 .block-a-little-about-me {
-  width: 350px;
+  width: 300px;
   padding-top: 18px;
 }
 
 .block-ana-general-contact {
+  width: 300px;
   padding-top: 30px;
 }
 
@@ -415,6 +416,8 @@ h2.block-title {
 
 .block-a-little-about-me img {
   margin-bottom: 22px;
+  height: auto;
+  width: 300px;
 }
 
 .block-a-little-about-me p {
@@ -431,12 +434,12 @@ h2.block-title {
 }
 
 .block-ana-general-contact {
-  width: 350px;
+  width: 300px;
 }
 
 .block-ana-general-contact textarea,
 .block-ana-general-contact input {
-  width: 350px;
+  width: 100%;
   float: left;
   margin-bottom: 5px;
   border: 1px solid #8e8e8e;
