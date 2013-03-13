@@ -239,6 +239,7 @@ function dl_portfolio_field_formatter_view($entity_type, $entity, $field, $insta
 
         $element[$delta] = array(
           '#theme' => 'video_dl_portfolio_formatter',
+          '#item' => $item,
           '#image_style' => $display['settings']['image_style'],
           '#preview_image_path' => $project_image_path,
           '#video_url' => $item['uri'],
@@ -259,7 +260,7 @@ function dl_portfolio_theme() {
       'variables' => array('preview_image_path' => NULL, 'item' => NULL, 'path' => NULL, 'image_style' => NULL, 'delta' => NULL, 'entity_id' => NULL, 'title' => NULL),
     ),
     'video_dl_portfolio_formatter' => array(
-      'variables' => array('preview_image_path' => NULL, 'video_url' => NULL, 'image_style' => NULL, 'title' => NULL, 'delta' => NULL, 'entity_id' => NULL),
+      'variables' => array('preview_image_path' => NULL, 'item' => NULL,  'video_url' => NULL, 'image_style' => NULL, 'title' => NULL, 'delta' => NULL, 'entity_id' => NULL),
     ),
     'dl_portfolio_jackbox_social' => array(
       'template' => 'dl-portfolio-jackbox-social',
@@ -291,8 +292,8 @@ function theme_video_dl_portfolio_formatter($variables) {
   if ($variables['delta'] == 0) {
     $image = array(
       'path' => $variables['preview_image_path'],
-      'alt' => 'test stuff',
-      'title' => 'its a title!',
+      //'alt' => 'test stuff',
+      //'title' => 'its a title!',
       //'style_name' => $variables['image_style']
     );
     //$output = theme('image_style', $image);
@@ -312,9 +313,20 @@ function theme_video_dl_portfolio_formatter($variables) {
     //$options['attributes']['rel'] = "shadowbox";
 //    $extra_settings = '&rel=0';
     //$options['attributes']['rel'] = 'gallery-' .  $variables['entity_id'];
+    //
+    if (isset($variables['item']['filename'])) {
+      $title = $variables['item']['filename'];
+    }
+    else {
+      $title = $variables['title'];
+    }
+
+
     $options['attributes']['class'] = 'jackbox';
-    $options['attributes']['data-title'] = $variables['title'];
+    $options['attributes']['data-title'] = $title;
     $options['attributes']['data-group'] = 'gallery-' .  $variables['entity_id'];
+
+    $output .= '<h2 class="project-title">' . $variables['title'] . '</h2>';
 
     $output = l($output, $video_path, $options);
   }
