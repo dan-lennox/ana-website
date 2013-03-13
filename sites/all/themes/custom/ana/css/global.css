@@ -424,6 +424,10 @@ h2.block-title {
   margin-bottom: 11px;
 }
 
+.block-a-little-about-me p {
+  text-align: justify;
+}
+
 .block-a-little-about-me p,
 .block-ana-general-contact textarea,
 .block-ana-general-contact input {
@@ -486,6 +490,11 @@ form label {
   border: none;
   padding: 0;
   margin: 15px 0 0 0;
+}
+
+.block-system-main .form-actions input {
+  float: left;
+  margin-left: 262px;
 }
 
 .form-actions input:hover {
